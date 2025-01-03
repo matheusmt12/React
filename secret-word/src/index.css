@@ -1,0 +1,10 @@
+body,html{
+  height: 100%;
+}
+
+body{
+  font-family: Helvetica;
+  margin: 0;
+  padding: 0;
+  background-color: cornflowerblue;
+}

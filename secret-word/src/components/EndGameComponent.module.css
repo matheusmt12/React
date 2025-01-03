@@ -1,0 +1,11 @@
+.end_main{
+    color: white;
+}
+.my_button{
+    border: solid white;
+    box-shadow: inset ;
+    border-radius: 20px;
+    background-color: blue;
+    color: white;font-size: 35px;
+    
+}
