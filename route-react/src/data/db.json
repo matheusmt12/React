@@ -1,0 +1,19 @@
+{
+    "product": [
+        {
+            "id": 1,
+            "name": "feijão",
+            "price": 10
+        },
+        {
+            "id": 2,
+            "name": "arroz",
+            "price": 9
+        },
+        {
+            "id": 3,
+            "name": "macarrao",
+            "price": 5
+        }
+    ]
+}
