@@ -1,0 +1,14 @@
+body{
+  margin: 0 auto;
+  padding: 0 auto;
+}
+form{
+  width: 500px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+input,textarea,select,button{
+  display: block;
+  margin-top: 10px;
+}

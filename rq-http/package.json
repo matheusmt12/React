@@ -1,5 +1,5 @@
 {
-  "name": "form-react",
+  "name": "rq-http",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -7,12 +7,15 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "server": "json-server --watch src/data/db.json"
   },
   "dependencies": {
-    "form-react": "file:",
+    "json-serve": "^0.1.0",
+    "json-server": "^1.0.0-beta.3",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "rq-http": "file:"
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",
