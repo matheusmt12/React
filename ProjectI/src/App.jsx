@@ -26,35 +26,34 @@ import { AuthProvider } from './context/AuthContext';
 
 function App() {
 
-  const [user,setUser] = useState(undefined);
-  const {auth} = useAuthentication();
+  const [user, setUser] = useState(undefined);
+  const { auth } = useAuthentication();
 
-  const loadingUser = user ===undefined;
+  const loadingUser = user === undefined;
 
-  useEffect(() =>{
-    onAuthStateChanged(auth, (user) =>{
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
       setUser(user);
     })
-  },[auth]);
+  }, [auth]);
 
   if (loadingUser) {
     return <p>Carregando...</p>;
   }
-   
   return (
     <>
-      <AuthProvider value={{user}}>
+      <AuthProvider value={{ user }}>
         <BrowserRouter>
           <NavbarComponent></NavbarComponent>
           <div className='container'>
             <Routes>
               <Route path='/' element={<Home />}></Route>
               <Route path='/about' element={<About />}></Route>
-              <Route path='/login' element={<Login />}></Route>
+              <Route path='/login' element={user ? <Home /> : <Login />}></Route>
               <Route path='/logout' element={<Logout />}></Route>
-              <Route path='/register' element={<Register />}></Route>
-              <Route path='/post/create' element={<CreatePost />}></Route>
-              <Route path='/dashboard' element={<Deshboard />}></Route>
+              <Route path='/register' element={user ? <Home /> : <Register />}></Route>
+              <Route path='/post/create' element={!user ? <Login /> : <CreatePost />}></Route>
+              <Route path='/dashboard' element={!user ? <Login /> : <Deshboard />}></Route>
             </Routes>
           </div>
           <FooterComponent></FooterComponent>

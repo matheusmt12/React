@@ -72,10 +72,9 @@ const Register = () => {
                    { !loading && <button className='btn'>Cadastrar</button>}
                    { loading && <button className='btn' disabled>Aguarde</button>}
                 </form>
-                {error &&  <p className="error" style={{textAlign:'center'}}>{error}</p> }
-                {authErro &&  <p className="error" style={{textAlign:'center'}}>{authErro}</p> }
-
             </div>
+            {error &&  <p className="error" style={{textAlign:'center'}}>{error}</p> }
+            {authErro &&  <p className="error" style={{textAlign:'center'}}>{authErro}</p> }
         </>
     )
 }

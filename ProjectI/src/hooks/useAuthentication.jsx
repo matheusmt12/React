@@ -23,7 +23,7 @@ export const useAuthentication = () => {
             return;
         }
     }
-
+    //create user 
     const creatUser = async (data) => {
         checkInCancellad();
 
@@ -56,14 +56,50 @@ export const useAuthentication = () => {
 
     };
 
+    //logout
+    const logout = () =>{
+
+        checkInCancellad();
+
+        signOut(auth);
+    }
+
     useEffect(() => {
         return () => setCancellad(true);
     }, [])
+
+    //login
+    const login = async (user) =>{
+        checkInCancellad();
+
+        setLoading(true);
+        setError(null);
+
+        try {
+            
+            await signInWithEmailAndPassword(auth, user.email, user.password)
+
+            setLoading(false);
+        } catch (error) {
+            let systemErrorMessage;
+            if (error.message.includes('user-not-found')) {
+                systemErrorMessage = 'Usuário não encontrado.';
+            }else if (error.message.includes('wrong-password')) {
+                systemErrorMessage = 'Senha inválida.';
+            } else {
+                systemErrorMessage = 'Aconteceu algum erro, tente mais tarde';
+            }
+            setError(systemErrorMessage);
+            setLoading(false);
+        }
+    }
 
     return {
         creatUser,
         erro,
         loading,
-        auth
+        auth,
+        logout,
+        login
     }
 }

@@ -1,7 +1,7 @@
 import styles from './Aboute.module.css'
 const About = () => {
   return (
-    <div className={styles.my_div}>About</div>
+    <h2 style={{textAlign : 'center'}}>Esse blog consiste no aprendizado em react </h2>
   )
 }
 
