@@ -6,7 +6,7 @@ const dbPassword = process.env.DB_PASSWORD
 
 const conn = async () => {
     try {
-        const dbConn = await mongoose.connect(`mongodb+srv://${dbUser}:${dbPassword}@cluster0.rum8i.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`);
+        const dbConn = await mongoose.connect(`mongodb+srv://matheusmtdev:${dbPassword}@reactgram.hmdy3.mongodb.net/?retryWrites=true&w=majority&appName=ReactGram`);
         console.log('Sucesso na conexão');
         return dbConn;
     } catch {

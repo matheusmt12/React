@@ -23,6 +23,16 @@ const userCreateValidation = () => {
     ];
 }
 
+const loginVAlidate = () =>{
+    return[
+        body("email")
+            .isEmail().withMessage("O campo nome é obrigatório"),
+        body("password")
+            .isString().withMessage("O campo senha é obrigatório")
+    ];
+}
+
 module.exports = {
     userCreateValidation,
+    loginVAlidate
 };
