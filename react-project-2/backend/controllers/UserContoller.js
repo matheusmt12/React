@@ -20,6 +20,7 @@ const generateToken = (id) => {
 const register = async (req, res) => {
     const { name, email, password } = req.body;
 
+    // verificar se tem algum emial com este nome
     const user = await User.findOne({ email });
 
     if (user) {
@@ -27,10 +28,11 @@ const register = async (req, res) => {
         return;
     }
 
+    // criptografar a senha
     const salt = await bcrypt.genSalt()
-
     const passwordBc = await bcrypt.hash(password, salt);
 
+    //criar novo usuário
     const newUser = await User.create({
         name,
         password: passwordBc,
@@ -48,11 +50,12 @@ const register = async (req, res) => {
     });
 }
 
-
+// login do usuário
 const login = async (req, res) => {
 
     const { email, password } = req.body;
 
+    //vendo se o usuário existe 
     const user = await User.findOne({ email });
 
     if (!user) {
@@ -74,7 +77,18 @@ const login = async (req, res) => {
 
 }
 
+
+const getProfile = async (req,res) =>{
+
+    const user = req.user;
+
+    res.status(200).json(user);
+}
+
+
+
 module.exports = {
     register,
-    login
+    login,
+    getProfile
 };
