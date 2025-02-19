@@ -13,11 +13,20 @@ const { imageUpload } = require("../middlewares/imageUpload");
 
 //controllers 
 
-const { insertPhoto } = require('../controllers/PhotoController');
+const { insertPhoto, deletPhoto, getAllPhotos,getAllPhotosIdUser ,getPhotoId } = require('../controllers/PhotoController');
+const { get } = require('mongoose');
 
 //rotas 
 
 router.post('/', authGuard, imageUpload.single("image"), validatePhoto(), validate, insertPhoto);
+
+router.delete('/:id',authGuard, deletPhoto);
+
+router.get('/', getAllPhotos);
+
+router.get('/user/:id', getAllPhotosIdUser)
+
+router.get('/:id',getPhotoId)
 
 module.exports = router;
 
