@@ -18,4 +18,22 @@ const validatePhoto = () => {
     ];
 }
 
-module.exports = { validatePhoto }
+
+const photoUpadateValidate = () => {
+
+    return [body("title")
+        .optional()
+        .isString()
+        .withMessage("O título é obrigatório")
+    ];
+}
+
+const ValidateCommentPhoto = () => {
+
+    return [
+        body('comment')
+        .isString()
+        .withMessage('O comentário é requerido')
+    ];
+}
+module.exports = { validatePhoto, photoUpadateValidate ,ValidateCommentPhoto}
