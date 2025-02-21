@@ -199,6 +199,17 @@ const commentPhoto = async (req, res) => {
     res.status(200).json({idPhoto : photo._id , idUser : userReq._id , message : 'Comentário feito'})
 }
 
+
+const searchPhotos = async (req, res) =>{
+
+    const {q} = req.query;
+
+    const photo = await Photo.find({title : new RegExp(q,'i')}).exec();
+
+    res.status(200).json(photo);
+
+}
+
 module.exports = {
     insertPhoto,
     deletPhoto,
@@ -207,5 +218,6 @@ module.exports = {
     getPhotoId,
     updatePhoto,
     likePhoto,
-    commentPhoto
+    commentPhoto,
+    searchPhotos
 }

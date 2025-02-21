@@ -14,7 +14,7 @@ const { imageUpload } = require("../middlewares/imageUpload");
 //controllers 
 
 const { insertPhoto, deletPhoto, getAllPhotos, getAllPhotosIdUser
-    , getPhotoId, updatePhoto, likePhoto, commentPhoto } = require('../controllers/PhotoController');
+    , getPhotoId, updatePhoto, likePhoto, commentPhoto, searchPhotos } = require('../controllers/PhotoController');
 const { get } = require('mongoose');
 
 //rotas 
@@ -24,6 +24,8 @@ router.post('/', authGuard, imageUpload.single("image"), validatePhoto(), valida
 router.delete('/:id', authGuard, deletPhoto);
 
 router.get('/',authGuard, getAllPhotos);
+
+router.get('/search', authGuard, searchPhotos);
 
 router.get('/user/:id',authGuard, getAllPhotosIdUser);
 
@@ -35,5 +37,7 @@ router.put('/like/:id', authGuard, likePhoto);
 
 router.put('/comment/:id', authGuard, ValidateCommentPhoto(), validate, commentPhoto);
 
+
 module.exports = router;
+
 
