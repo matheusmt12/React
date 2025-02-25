@@ -5,7 +5,7 @@ const user = JSON.stringify(localStorage.getItem('user'));
 
 const initialState = {
     user: user ? user : null,
-    error: false,
+    errors: false,
     success: false,
     loading: false
 }
@@ -14,9 +14,9 @@ export const register = createAsyncThunk('auht/register', async (user, thunkAPI)
 
     const data = await authService.register(user);
 
-    if (data.error) {
+    if (data.errors) {
         //verificar se os erros estao como uma lista 
-        thunkAPI.rejectWithValue(data.errors[0])
+        return thunkAPI.rejectWithValue(data.errors[0])
     }
 
     return data;
@@ -29,7 +29,7 @@ export const authSlice = createSlice({
     initialState,
     reducers: {
         reset: (state) => {
-            state.error = false;
+            state.errors = false;
             state.loading = false;
             state.success = false;
 
@@ -38,15 +38,15 @@ export const authSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(register.pending, (state) =>{
             state.loading = true;
-            state.error = false
+            state.errors = false
         }).addCase(register.fulfilled, (state, action) =>{
             state.loading = false;
             state.success = true;
-            state.error = null;
+            state.errors = null;
             state.user = action.payload;
         }).addCase(register.rejected, (state, action) =>{
             state.loading = false;
-            state.error = action.payload;
+            state.errors = action.payload;
             state.user = null;
         })
     }

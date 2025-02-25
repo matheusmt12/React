@@ -27,7 +27,7 @@ const register = async (req, res) => {
     const user = await User.findOne({ email });
 
     if (user) {
-        res.status(422).json({ errors: 'Este E-mail ja esta cadastrado' });
+        res.status(422).json( {errors : ['Este E-mail ja esta cadastrado'] });
         return;
     }
 
@@ -43,7 +43,7 @@ const register = async (req, res) => {
     })
 
     if (!newUser) {
-        res.status(500).json({ errors: 'Aconteceu algum erro, temte mais tarde!' })
+        res.status(500).json({errors : ['Aconteceu algum erro, temte mais tarde!']})
         return;
     }
 
@@ -62,13 +62,13 @@ const login = async (req, res) => {
     const user = await User.findOne({ email });
 
     if (!user) {
-        res.status(404).json({ errors: 'O E-mail não existe' });
+        res.status(404).json({errors : ['O E-mail não existe'] });
         return;
     }
 
     if (!(await bcrypt.compare(password, user.password))) {
 
-        res.status(422).json({ errors: 'Senha inválida!' });
+        res.status(422).json({errors : [ 'Senha inválida!']});
         return;
     }
 
@@ -126,12 +126,12 @@ const getByUserId = async (req, res) =>{
         const user = await User.findById(id).select('-password');
     
         if(!user){
-            res.status(404).json("Usuário não encontrado");
+            res.status(404).json({errors : ["Usuário não encontrado"]});
         }
     
         res.status(200).json({Usuario: user})
     } catch (error) {
-        res.status(404).json("Usuario não ecnontrado");
+        res.status(404).json({errors :["Usuario não ecnontrado"]});
         
     }
 }
