@@ -29,6 +29,17 @@ export const logout = createAsyncThunk('auth/logout', async () =>{
 })
 
 
+export const login = createAsyncThunk('auth/login', async (user, thunkAPI) =>{
+
+    const data = await authService.login(user);
+
+    if(data.errors){
+        return thunkAPI.rejectWithValue(data.errors[0]);
+    }
+    return data;
+})
+
+
 export const authSlice = createSlice({
     name: 'auth',
     initialState,
@@ -37,7 +48,6 @@ export const authSlice = createSlice({
             state.errors = false;
             state.loading = false;
             state.success = false;
-
         }
     },
     extraReducers: (builder) => {
@@ -54,11 +64,27 @@ export const authSlice = createSlice({
             state.errors = action.payload;
             state.user = null;
         })
-        .addCase(logout.fulfilled, (state,action) =>{
+        .addCase(logout.fulfilled, (state) =>{
             state.errors = null;
             state.loading = false;
             state.success = true;
             state.user = null;
+        })
+        .addCase(login.pending, (state) =>{
+            state.loading = true;
+            state.errors= false;
+        })
+        .addCase(login.fulfilled, (state, action) =>{
+            state.errors = false;
+            state.loading = false;
+            state.success = true;
+            state.user = action.payload;
+        })
+        .addCase(login.rejected, (state,action) =>{
+            state.errors = action.payload;
+            state.loading = false;
+            state.user = null;
+            state.success = false;
         })
     }
 

@@ -26,9 +26,9 @@ const userCreateValidation = () => {
 const loginVAlidate = () =>{
     return[
         body("email")
-            .isEmail().withMessage("O campo nome é obrigatório"),
+            .isEmail().withMessage("O campo Email é obrigatório"),
         body("password")
-            .isString().withMessage("O campo senha é obrigatório")
+            .isString().withMessage("O campo Senha é obrigatório")
     ];
 }
 
