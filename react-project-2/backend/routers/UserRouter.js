@@ -19,7 +19,7 @@ router.post('/login', loginVAlidate(), validate, login);
 
 router.get('/profile', authGuard,getProfile);
 
-router.put('/', authGuard, userUpdateValidate(), validate, imageUpload.single('profileImage'), update);
+router.put('/', authGuard, userUpdateValidate(), validate, imageUpload.single('image'), update);
 
 router.get('/:id', getByUserId);
 

@@ -50,12 +50,12 @@ const NavbarComponent = () => {
               <NavLink to={'/'}><BsHouseDoorFill /></NavLink>
             </li>
             <li>
-              {/* <NavLink to={`/user/${user._id}`}>
+              <NavLink to={`/user/${user._id}`}>
                 <BsFillCameraFill></BsFillCameraFill>
-              </NavLink> */}
+              </NavLink>
             </li>
             <li>
-              <NavLink to={'/ptofile'}>
+              <NavLink to={'/profile'}>
               <BsFillPersonFill></BsFillPersonFill>
               </NavLink>
             </li>

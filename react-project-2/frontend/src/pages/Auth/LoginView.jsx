@@ -7,7 +7,7 @@ import MessageComponent from '../../components/MessageComponent.jsx';
 import {Link, useNavigate} from  'react-router-dom';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { reset , login } from '../../slices/authSlice.jsx';
+import { reset , login, } from '../../slices/authSlice.jsx';
 const LoginView = () => {
 
   const[email, setEmail] = useState('');
