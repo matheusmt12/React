@@ -1,13 +1,13 @@
-import {api,requestConfig} from '../utils/config.jsx';
+import { api, requestConfig } from '../utils/config.jsx';
 
 
 //get user
-const profile = async(date,token) =>{
+const profile = async (date, token) => {
 
     const config = (requestConfig("GET", date, token));
 
     try {
-        const res = await fetch(api + '/users/profile', config )
+        const res = await fetch(api + '/users/profile', config)
             .then((res) => res.json())
             .catch((err) => err)
         return res;
@@ -18,20 +18,22 @@ const profile = async(date,token) =>{
 
 };
 
-const update = async( data, token) =>{
+const update = async (data, token) => {
 
-    const config = requestConfig("PUT" ,data, token , true);
+    const config = requestConfig("PUT", data, token, true);
 
     try {
-        const res = await fetch(api + '/users/',config)
+        const res = await fetch(api + '/users/', config)
             .then((res) => res)
             .catch((err) => err);
 
+
         return res;
+
 
     } catch (error) {
         console.log(error);
-        
+
     }
 
 }

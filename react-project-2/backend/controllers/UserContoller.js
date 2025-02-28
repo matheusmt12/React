@@ -115,7 +115,9 @@ const update = async (req, res) => {
             user.bio = bio;
 
         await user.save();
-        res.status(200).json({Sucesso: user})
+        console.log(user);
+        
+        res.status(200).json(user);
 }
 
 const getByUserId = async (req, res) =>{

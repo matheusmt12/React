@@ -52,14 +52,12 @@ const EditProfile = () => {
 
     const formData = new FormData();
 
-    const useFormData = Object.keys(data).forEach((key) =>
-      formData.append(key, data[key])
-    )
+    // Aqui usamos forEach corretamente
+    Object.keys(data).forEach((key) => formData.append(key, data[key]));
 
-    await dispatch(update(useFormData));
+    await dispatch(update(formData));
 
 
-    console.log(formData);
 
     setTimeout(() => {
       dispatch(resetMessage());
@@ -67,6 +65,8 @@ const EditProfile = () => {
 
 
   }
+
+  console.log(user);
 
   const handleFile = (e) => {
 
@@ -84,8 +84,11 @@ const EditProfile = () => {
       {(user.profileImg || previewImage) &&
         (
           <img className='profile-image' src={
-            previewImage ? URL.createObjectURL(previewImage) : `${uploads}/users/${user.profileImage}`
-          } />
+            previewImage ? URL.createObjectURL(previewImage) : `${uploads}/users/${user.profileImg}`
+
+          }
+            alt={user.name}
+          />
         )
       }
 
