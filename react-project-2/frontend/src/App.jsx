@@ -1,26 +1,27 @@
-import './App.css'
+import './App.css';
 
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 
 //pages
-import HomeView from './pages/Home/HomeView'
-import RegisterView from './pages/Auth/RegisterView'
-import LoginView from './pages/Auth/LoginView'
-import EditProfile from './pages/EditProfile/EditProfile'
+import HomeView from './pages/Home/HomeView';
+import RegisterView from './pages/Auth/RegisterView';
+import LoginView from './pages/Auth/LoginView';
+import EditProfile from './pages/EditProfile/EditProfile';
+import Profile from './pages/Profile/Profile';
 
 //hooks
-import { useAuth } from './hooks/useAuth'
+import { useAuth } from './hooks/useAuth';
 
 //component
-import NavbarComponent from './components/NavbarComponent'
-import FooterComponent from './components/FooterComponent'
+import NavbarComponent from './components/NavbarComponent';
+import FooterComponent from './components/FooterComponent';
 
 function App() {
 
-  const {loading , auth} = useAuth();
+  const { loading, auth } = useAuth();
 
-  
-  if(loading){
+
+  if (loading) {
     return <p>Carregando...</p>
   }
 
@@ -32,8 +33,9 @@ function App() {
         <Routes>
           <Route path='/' element={auth ? <HomeView /> : <Navigate to={'/login'}></Navigate>} />
           <Route path='/profile' element={auth ? <EditProfile /> : <Navigate to={'/login'}></Navigate>} />
-          <Route path='/register' element={!auth ?<RegisterView /> : <Navigate to={'/'}/>} />
-          <Route path='/login' element={!auth ?<LoginView /> : <Navigate to={'/'}/>} />
+          <Route path='/users/:id' element={auth ? <Profile /> : <Navigate to={'/login'}></Navigate>} />
+          <Route path='/register' element={!auth ? <RegisterView /> : <Navigate to={'/'} />} />
+          <Route path='/login' element={!auth ? <LoginView /> : <Navigate to={'/'} />} />
           <Route />
         </Routes>
       </div>

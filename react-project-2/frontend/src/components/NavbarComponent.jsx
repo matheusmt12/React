@@ -18,22 +18,22 @@ import { useDispatch } from 'react-redux';
 const NavbarComponent = () => {
 
   const { auth } = useAuth();
-  const {user} = useSelector((state) => state.auth)
+  const { user } = useSelector((state) => state.auth)
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
 
-  const handleLogout = () =>{
+  const handleLogout = () => {
 
     dispatch(logout());
     dispatch(reset());
-    
-    
+
+
     navigate('/login');
   }
-  
-  
+
+
 
 
   return (
@@ -49,18 +49,18 @@ const NavbarComponent = () => {
             <li>
               <NavLink to={'/'}><BsHouseDoorFill /></NavLink>
             </li>
-            <li>
-              <NavLink to={`/user/${user._id}`}>
+            {user &&(<li>
+              <NavLink to={`/users/${user._id}`}>
                 <BsFillCameraFill></BsFillCameraFill>
               </NavLink>
-            </li>
+            </li>)}
             <li>
               <NavLink to={'/profile'}>
-              <BsFillPersonFill></BsFillPersonFill>
+                <BsFillPersonFill></BsFillPersonFill>
               </NavLink>
             </li>
             <li>
-             <span onClick={handleLogout}>Sair</span>
+              <span onClick={handleLogout}>Sair</span>
             </li>
           </>)
             :

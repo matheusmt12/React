@@ -131,7 +131,7 @@ const getByUserId = async (req, res) =>{
             res.status(404).json({errors : ["Usuário não encontrado"]});
         }
     
-        res.status(200).json({Usuario: user})
+        res.status(200).json(user)
     } catch (error) {
         res.status(404).json({errors :["Usuario não ecnontrado"]});
         
