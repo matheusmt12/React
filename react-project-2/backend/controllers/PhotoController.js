@@ -165,7 +165,7 @@ const likePhoto = async (req, res) => {
 
     if (photo.likes.includes(userReq._id)) {
         res.status(422).json({ errors: 'voce já curtiu esta foto' });
-        return
+        return;
     }
 
     photo.likes.push(userReq._id);

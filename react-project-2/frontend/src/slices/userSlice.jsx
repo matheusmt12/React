@@ -1,80 +1,80 @@
-import { createAsyncThunk , createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import userService from "../service/userService";
 
 const initialState = {
-    loading : false,
-    errors : false,
-    message : null,
-    user : {},
-    success : false
+    loading: false,
+    errors: false,
+    message: null,
+    user: {},
+    success: false
 }
 
-export const profile = createAsyncThunk('user/profile', async (user, thunkAPI) =>{
+export const profile = createAsyncThunk('user/profile', async (user, thunkAPI) => {
 
     const token = thunkAPI.getState().auth.user.token;
-    
+
     const data = await userService.profile(user, token);
-    
+
     return data;
 
 });
 
-export const update = createAsyncThunk('user/update',async (user, thunkAPI)=>{
+export const update = createAsyncThunk('user/update', async (user, thunkAPI) => {
 
-    
-    const token = thunkAPI.getState().auth.user.token; 
 
-    
+    const token = thunkAPI.getState().auth.user.token;
+
+
     const data = await userService.update(user, token);
 
-    console.log(data+ 'teste');
-    
+    console.log(data + 'teste');
+
     if (data.errors) {
         return thunkAPI.rejectWithValue(data.errors[0]);
     }
 
     return data;
-    
+
 })
 
-export const details = createAsyncThunk('user/details', async (id, thunkAPI)=>{
+export const details = createAsyncThunk('user/details', async (id, thunkAPI) => {
 
     const data = await userService.details(id);
-    
+
     return data;
 
 })
 
 
 export const userSlice = createSlice({
-    name : 'user',
+    name: 'user',
     initialState,
-    reducers : {
-        resetMessage : (state) =>{
+    reducers: {
+        resetMessage: (state) => {
             state.message = null;
         }
     },
-    extraReducers :(builder) =>{
+    extraReducers: (builder) => {
         builder
-            .addCase(profile.pending , (state) =>{
+            .addCase(profile.pending, (state) => {
                 state.loading = true;
                 state.errors = false;
                 state.message = null;
                 state.user = {};
                 state.success = false;
             })
-            .addCase(profile.fulfilled, (state,action) =>{
+            .addCase(profile.fulfilled, (state, action) => {
                 state.errors = false;
                 state.loading = false;
                 state.user = action.payload;
                 state.success = true;
-                state.message = null;  
+                state.message = null;
             })
-            .addCase(update.pending, (state) =>{
+            .addCase(update.pending, (state) => {
                 state.errors = false;
                 state.loading = true;
             })
-            .addCase(update.fulfilled,(state, action) =>{
+            .addCase(update.fulfilled, (state, action) => {
                 state.errors = false;
                 state.success = true;
                 state.user = action.payload;
@@ -88,20 +88,20 @@ export const userSlice = createSlice({
                 state.message = null;
                 state.success = false;
             })
-            .addCase(details.pending, (state) =>{
+            .addCase(details.pending, (state) => {
                 state.errors = false;
                 state.loading = true;
             })
-            .addCase(details.fulfilled, (state, action) =>{
+            .addCase(details.fulfilled, (state, action) => {
                 state.errors = false;
                 state.loading = false;
                 state.user = action.payload;
                 state.success = true;
-                state.message = null;  
+                state.message = null;
             })
     }
 });
 
-export const {resetMessage} = userSlice.actions;
+export const { resetMessage } = userSlice.actions;
 
 export default userSlice.reducer;
