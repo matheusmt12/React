@@ -9,7 +9,6 @@ export const useFetch = (url) =>{
     const [callFetch, setCallFetch] = useState(false)
     const httpConfig = (method,data) => {
         if (method == "POST") {
-            console.log('ta aqui');
             
             setConfig({
                 method : "POST",

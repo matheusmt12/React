@@ -84,11 +84,8 @@ const getAllPhotosIdUser = async (req, res) => {
     }
 
     const photos = await Photo.find({ userId: id }).sort([['createdAt', -1]]).exec();
-    if (photos.length <= 0) {
-        res.status(200).json({ message: `O usuário ${user.name} Não possui fotos` });
-    }
 
-    res.status(200).json({ photo: photos });
+    res.status(200).json(photos);
 }
 
 // get foto por id
@@ -105,7 +102,7 @@ const getPhotoId = async (req, res) => {
         return;
     }
 
-    res.status(200).json({ photo: photo });
+    res.status(200).json( photo);
 }
 
 
@@ -144,7 +141,7 @@ const updatePhoto = async (req, res) => {
 
     await photo.save();
 
-    res.status(200).json({ message: 'Sucesso, foto atualizada', photo: photo });
+    res.status(200).json( photo);
 
 }
 
