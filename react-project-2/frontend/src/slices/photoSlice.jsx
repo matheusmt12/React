@@ -1,17 +1,17 @@
-import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import photoService from '../service/photoService';
 
 const initialState = {
     photos: [],
-    photo : {},
-    loading : false,
-    errors : false,
-    success : false,
-    message : false
+    photo: {},
+    loading: false,
+    errors: false,
+    success: false,
+    message: false
 }
 
 
-export const insertPhoto = createAsyncThunk('photo/insert', async(photo,thunkAPI) =>{
+export const insertPhoto = createAsyncThunk('photo/insert', async (photo, thunkAPI) => {
 
     const token = thunkAPI.getState().auth.user.token;
 
@@ -23,16 +23,16 @@ export const insertPhoto = createAsyncThunk('photo/insert', async(photo,thunkAPI
     return data;
 })
 
-export const getAllPhotosUser = createAsyncThunk('photos/getAllPhotosUser', async(id,thunkAPI) =>{
+export const getAllPhotosUser = createAsyncThunk('photos/getAllPhotosUser', async (id, thunkAPI) => {
 
     let token = thunkAPI.getState().auth.user.token;
 
-    const data = await photoService.getAllPhotosUser(id,token);
-    
+    const data = await photoService.getAllPhotosUser(id, token);
+
     return data;
 })
 
-export const deletePhoto = createAsyncThunk('photo/delete',async(id, thunkAPI) =>{
+export const deletePhoto = createAsyncThunk('photo/delete', async (id, thunkAPI) => {
 
     const token = thunkAPI.getState().auth.user.token;
 
@@ -44,33 +44,47 @@ export const deletePhoto = createAsyncThunk('photo/delete',async(id, thunkAPI) =
 
     return data;
 
+});
+
+export const updatePhoto = createAsyncThunk('photo/update', async (data, thunkAPI) => {
+
+    let token = thunkAPI.getState().auth.user.token;
+
+
+    
+    const photo = await photoService.updatePhoto({title: data.title}, data.id, token);
+
+    if (photo.erros) return thunkAPI.rejectWithValue(photo.erros[0]);
+
+    return photo;
+
 })
 
 
 export const photoSlice = createSlice({
-    name : 'photo',
+    name: 'photo',
     initialState,
-    reducers : {
-        resetMessage : (state)=>{
+    reducers: {
+        resetMessage: (state) => {
             state.message = null;
             state.success = false;
         }
     },
-    extraReducers : (builder) =>{
-        builder 
-            .addCase(insertPhoto.pending, (state)=>{
+    extraReducers: (builder) => {
+        builder
+            .addCase(insertPhoto.pending, (state) => {
                 state.loading = true;
                 state.message = null;
                 state.errors = false;
             })
-            .addCase(insertPhoto.rejected, (state, action) =>{
+            .addCase(insertPhoto.rejected, (state, action) => {
                 state.loading = false;
                 state.errors = action.payload;
                 state.photo = {};
                 state.success = false;
                 state.message = false;
             })
-            .addCase(insertPhoto.fulfilled, (state, action) =>{
+            .addCase(insertPhoto.fulfilled, (state, action) => {
                 state.errors = false;
                 state.loading = false;
                 state.message = 'Nova foto adicionada';
@@ -78,46 +92,62 @@ export const photoSlice = createSlice({
                 state.photos.unshift(state.photo)
                 state.success = true;
             })
-            .addCase(getAllPhotosUser.pending, (state) =>{
+            .addCase(getAllPhotosUser.pending, (state) => {
                 state.errors = false;
                 state.loading = true;
             })
-            .addCase(getAllPhotosUser.rejected, (state, action) =>{
+            .addCase(getAllPhotosUser.rejected, (state, action) => {
                 state.errors = action.payload;
                 state.loading = false;
                 state.photo = {};
                 state.photos = [];
                 state.success = false;
             })
-            .addCase(getAllPhotosUser.fulfilled, (state,action) =>{
+            .addCase(getAllPhotosUser.fulfilled, (state, action) => {
                 state.errors = false;
                 state.loading = false;
                 state.message = null;
                 state.photos = action.payload;
             })
-            .addCase(deletePhoto.pending , (state) =>{
+            .addCase(deletePhoto.pending, (state) => {
                 state.errors = false;
                 state.loading = true;
             })
-            .addCase(deletePhoto.fulfilled, (state, action)=>{
+            .addCase(deletePhoto.fulfilled, (state, action) => {
                 state.errors = false;
                 state.message = "Imagem deletada";
                 state.success = true;
                 state.loading = false;
-                
+
                 state.photos = state.photos.filter((photo) => {
                     return photo._id !== action.payload.id;
-                  });
+                });
             })
-            .addCase(deletePhoto.rejected, (state, action) =>{
+            .addCase(deletePhoto.rejected, (state, action) => {
                 state.errors = action.payload;
                 state.loading = false;
-                state.success = false; 
-            } )
+                state.success = false;
+            })
+            .addCase(updatePhoto.pending, (state) => {
+                state.errors = false;
+                state.loading = true;
+            })
+            .addCase(updatePhoto.fulfilled, (state, action) => {
+                state.errors = false;
+                state.loading = false;
+                state.message = "Foto atualizada";
+                state.photos.map((photo) => {
+
+                    if (photo._id === action.payload._id) {
+                        return photo.title = action.payload.title;
+                    }
+                    return photo;
+                })
+            })
     }
 });
 
-export const {resetMessage} = photoSlice.actions;
+export const { resetMessage } = photoSlice.actions;
 
 
 export default photoSlice.reducer;

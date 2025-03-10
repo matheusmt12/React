@@ -44,7 +44,6 @@ const deletPhoto = async (req, res) => {
 
     const reqUser = req.user;
 
-    console.log(id);
 
     const photo = await Photo.findById(id);
 
@@ -76,7 +75,6 @@ const getAllPhotosIdUser = async (req, res) => {
     const { id } = req.params
 
     const user = await User.findById(id);
-    console.log(id);
 
     if (!user) {
         res.status(404).json("O usuário não foi encontrado");
@@ -119,29 +117,29 @@ const updatePhoto = async (req, res) => {
 
     const { title } = req.body;
 
+
+    
     // verify if photo exist
 
-    console.log(reqUser);
 
     if (!photo) {
         res.status(404).json({ error: 'Foto não encontrada' });
-        return
+        return;
     }
 
     // verify if photo and photo relation
 
+    
     if (!photo.userId.equals(reqUser._id)) {
         res.status(422).json({ errors: "Esta foto não pode ser alterada!" });
         return;
     }
 
     if (title) {
-        photo.title = title;
+        photo.title = title;    
     }
-
     await photo.save();
-
-    res.status(200).json( photo);
+    res.status(200).json(photo);
 
 }
 
