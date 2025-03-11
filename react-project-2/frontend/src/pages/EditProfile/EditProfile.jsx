@@ -18,6 +18,8 @@ const EditProfile = () => {
   const { errors, loading, user, message } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
+  console.log(message);
+  
   // get user
 
   useEffect(() => {
@@ -56,7 +58,7 @@ const EditProfile = () => {
     Object.keys(data).forEach((key) => formData.append(key, data[key]));
 
     await dispatch(update(formData));
-    
+
     setTimeout(() => {
       dispatch(resetMessage());
     }, 2000);

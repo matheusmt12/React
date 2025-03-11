@@ -91,8 +91,6 @@ const getAllPhotosIdUser = async (req, res) => {
 const getPhotoId = async (req, res) => {
 
     const { id } = req.params;
-
-
     const photo = await Photo.findById(id);
 
     if (!photo) {

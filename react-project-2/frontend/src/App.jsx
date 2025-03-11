@@ -15,6 +15,7 @@ import { useAuth } from './hooks/useAuth';
 //component
 import NavbarComponent from './components/NavbarComponent';
 import FooterComponent from './components/FooterComponent';
+import Photo from './pages/Photo/Photo';
 
 function App() {
 
@@ -36,7 +37,7 @@ function App() {
           <Route path='/users/:id' element={auth ? <Profile /> : <Navigate to={'/login'}></Navigate>} />
           <Route path='/register' element={!auth ? <RegisterView /> : <Navigate to={'/'} />} />
           <Route path='/login' element={!auth ? <LoginView /> : <Navigate to={'/'} />} />
-          <Route />
+          <Route path='/photos/:id' element={auth ? <Photo /> : <Navigate to={'/login'}></Navigate>} />
         </Routes>
       </div>
       <FooterComponent />

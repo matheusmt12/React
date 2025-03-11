@@ -60,6 +60,18 @@ export const updatePhoto = createAsyncThunk('photo/update', async (data, thunkAP
 
 })
 
+export const getPhotoId = createAsyncThunk('photo/id', async (id,thunckAPI) =>{
+
+    let token = thunckAPI.getState().auth.user.token;
+
+    const data = await photoService.getPhotoId(id,token);
+
+    if (data.errors) {
+        return thunckAPI.rejectWithValue(data.errors[0]);
+    }
+
+    return data;
+})
 
 export const photoSlice = createSlice({
     name: 'photo',
@@ -133,7 +145,6 @@ export const photoSlice = createSlice({
                 state.loading = true;
             })
             .addCase(updatePhoto.fulfilled, (state, action) => {
-                console.log('ESTOU AQUI MESMO SEM SER CHAMADO');
                 
                 state.errors = false;
                 state.loading = false;
@@ -146,6 +157,16 @@ export const photoSlice = createSlice({
                     }
                     return photo;
                 })
+            })
+            .addCase(getPhotoId.pending, (state)=>{
+                state.loading = true;
+                state.errors = false;
+            })
+            .addCase(getPhotoId.fulfilled, (state, actions) =>{
+                state.loading = false.value;
+                state.errors = false;
+                state.success = true;
+                state.photo = actions.payload
             })
     }
 });

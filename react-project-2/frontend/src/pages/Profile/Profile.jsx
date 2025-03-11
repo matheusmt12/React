@@ -198,7 +198,7 @@ const Profile = () => {
               )}
               {id === auth._id ? (
                 <div className="actions" >
-                  <Link><BsFillEyeFill /></Link>
+                  <Link to={`/photos/${item._id}`}><BsFillEyeFill /></Link>
                   <BsPencilFill onClick={() => handleEdit(item)} />
                   <BsXLg onClick={() => handleDelete(item._id)}></BsXLg>
                 </div>

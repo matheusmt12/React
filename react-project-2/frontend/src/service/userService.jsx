@@ -24,7 +24,7 @@ const update = async (data, token) => {
 
     try {
         const res = await fetch(api + '/users/', config)
-            .then((res) => res)
+            .then((res) => res.json())
             .catch((err) => err);
 
 

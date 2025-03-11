@@ -70,13 +70,13 @@ export const userSlice = createSlice({
                 state.loading = false;
                 state.user = action.payload;
                 state.success = true;
-                state.message = "Perfil atualizado";
             })
             .addCase(update.pending, (state) => {
                 state.errors = false;
                 state.loading = true;
             })
             .addCase(update.fulfilled, (state, action) => {
+                
                 state.errors = false;
                 state.success = true;
                 state.user = action.payload;
