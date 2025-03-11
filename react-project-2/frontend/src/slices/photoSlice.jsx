@@ -74,7 +74,7 @@ export const photoSlice = createSlice({
         builder
             .addCase(insertPhoto.pending, (state) => {
                 state.loading = true;
-                state.message = null;
+                state.message = false;
                 state.errors = false;
             })
             .addCase(insertPhoto.rejected, (state, action) => {
@@ -133,9 +133,12 @@ export const photoSlice = createSlice({
                 state.loading = true;
             })
             .addCase(updatePhoto.fulfilled, (state, action) => {
+                console.log('ESTOU AQUI MESMO SEM SER CHAMADO');
+                
                 state.errors = false;
                 state.loading = false;
                 state.message = "Foto atualizada";
+                state.success = true;
                 state.photos.map((photo) => {
 
                     if (photo._id === action.payload._id) {

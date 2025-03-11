@@ -94,39 +94,43 @@ const Profile = () => {
 
 
   const hideOrShowForm = () => {
+
     newPhotoForm.current.classList.toggle('hide');
     editPhotoForm.current.classList.toggle('hide');
 
   }
 
-  const handleUpdate = async(e) => {
-    e.preventDefault();
-
-    
-    const data = {
-      title: editTitle,
-      id : editId
-    }
-
-    await dispatch(updatePhoto(data));
-
-    resMessage();
-
-  }
 
   const handleEdit = (photo) => {
     if (editPhotoForm.current.classList.contains('hide')) {
       hideOrShowForm();
     }
 
-      seteditImage(photo.image)
-      setEditId(photo._id)
-      setEditTitle(photo.title);
+    seteditImage(photo.image)
+    setEditId(photo._id)
+    setEditTitle(photo.title);
 
   }
 
+
   const handleCancelEdit = () => {
+    console.log('teste success' + success);
+
     hideOrShowForm();
+  }
+
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+
+    const data = {
+      title: editTitle,
+      id: editId
+    }
+
+    await dispatch(updatePhoto(data));
+
+    resMessage();
+
   }
 
 
@@ -145,40 +149,44 @@ const Profile = () => {
           <p>{user.bio}</p>
         </div>
       </div>
-      {id == auth._id && <>
-        <div className='new-photo' ref={newPhotoForm}>
-          <p>Compartilhe algum momento eu:</p>
-          <form onSubmit={handleSubmit}>
-            <label>
-              <span>Título da imagem</span>
-              <input type="text" placeholder='Insira um título' value={titulo || ''} onChange={(e) => setTitulo(e.target.value)} />
-            </label>
-            <label>
-              <span>Imagem</span>
-              <input type="file" onChange={handleFile} />
-            </label>
-            {loadingPhoto ? <input type="submit" value={'Aguarde'} disabled /> : <input type="submit" value={'Postar'} />}
-          </form>
+      {id == auth._id &&
+        <>
+          <div className='new-photo' ref={newPhotoForm}>
+            <p>Compartilhe algum momento eu:</p>
+            <form onSubmit={handleSubmit}>
+              <label>
+                <span>Título da imagem</span>
+                <input type="text" placeholder='Insira um título' value={titulo || ''} onChange={(e) => setTitulo(e.target.value)} />
+              </label>
+              <label>
+                <span>Imagem</span>
+                <input type="file" onChange={handleFile} />
+              </label>
+              {loadingPhoto ? <input type="submit" value={'Aguarde'} disabled /> : <input type="submit" value={'Postar'} />}
+            </form>
 
-        </div>
-        <div className="edti-photo hide" ref={editPhotoForm}>
-          <p>Editando:</p>
-          {editImage && (
-            <img src={`${uploads}/photos/${editImage}`} alt={editTitle} />
-          )}
-          <form onSubmit={handleUpdate}>
-            <input type="text"
-              placeholder='Insira um título'
-              value={editTitle || ''}
-              onChange={(e) => setEditTitle(e.target.value)} />
+          </div>
+          <div className="edti-photo hide" ref={editPhotoForm}>
+            <p>Editando:</p>
+            {editImage && (
+              <img src={`${uploads}/photos/${editImage}`} alt={editTitle} />
+            )}
+            <form onSubmit={handleUpdate}>
+              <input type="text"
+                placeholder='Insira um título'
+                value={editTitle || ''}
+                onChange={(e) => setEditTitle(e.target.value)} />
 
-            {loadingPhoto ? <input type="submit" value={'Aguarde'} disabled /> : <input type="submit" value={'Atualizar'} />}
-            <button className='cancel-btn' onClick={handleCancelEdit}>Cancelar edição</button>
-          </form>
-        </div>
-        {errorsPhoto && <MessageComponent msg={errors} type={'error'}></MessageComponent>}
-        {success && <MessageComponent msg={message} type={'success'}></MessageComponent>}
-      </>}
+              <input type="submit" value="Atualizar" />
+              <button type='button' className="cancel-btn" onClick={handleCancelEdit}>
+                Cancelar edição
+              </button>
+            </form>
+
+          </div>
+          {errorsPhoto && <MessageComponent msg={errors} type={'error'}></MessageComponent>}
+          {success && <MessageComponent msg={message} type={'success'}></MessageComponent>}
+        </>}
       <div className="user-photos">
         <h2>Fotos de {user.name}</h2>
         <div className="photos-container">

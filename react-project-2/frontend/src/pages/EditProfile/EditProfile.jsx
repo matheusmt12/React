@@ -56,9 +56,7 @@ const EditProfile = () => {
     Object.keys(data).forEach((key) => formData.append(key, data[key]));
 
     await dispatch(update(formData));
-
-
-
+    
     setTimeout(() => {
       dispatch(resetMessage());
     }, 2000);
@@ -66,7 +64,6 @@ const EditProfile = () => {
 
   }
 
-  console.log(user);
 
   const handleFile = (e) => {
 
