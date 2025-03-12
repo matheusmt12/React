@@ -51,8 +51,8 @@ export const updatePhoto = createAsyncThunk('photo/update', async (data, thunkAP
     let token = thunkAPI.getState().auth.user.token;
 
 
-    
-    const photo = await photoService.updatePhoto({title: data.title}, data.id, token);
+
+    const photo = await photoService.updatePhoto({ title: data.title }, data.id, token);
 
     if (photo.erros) return thunkAPI.rejectWithValue(photo.erros[0]);
 
@@ -60,15 +60,27 @@ export const updatePhoto = createAsyncThunk('photo/update', async (data, thunkAP
 
 })
 
-export const getPhotoId = createAsyncThunk('photo/id', async (id,thunckAPI) =>{
+export const getPhotoId = createAsyncThunk('photo/id', async (id, thunckAPI) => {
 
     let token = thunckAPI.getState().auth.user.token;
 
-    const data = await photoService.getPhotoId(id,token);
+    const data = await photoService.getPhotoId(id, token);
 
     if (data.errors) {
         return thunckAPI.rejectWithValue(data.errors[0]);
     }
+
+    return data;
+})
+
+export const photoLike = createAsyncThunk('photo/like', async (id, thunckAPI) => {
+
+    let token = thunckAPI.getState().auth.user.token;
+    
+    const data = await photoService.photoLike(id, token);
+
+    
+    if (data.errors) return thunckAPI.rejectWithValue(data.errors[0]);
 
     return data;
 })
@@ -78,7 +90,7 @@ export const photoSlice = createSlice({
     initialState,
     reducers: {
         resetMessage: (state) => {
-            state.message = null;
+            state.message = false;
             state.success = false;
         }
     },
@@ -118,7 +130,7 @@ export const photoSlice = createSlice({
             .addCase(getAllPhotosUser.fulfilled, (state, action) => {
                 state.errors = false;
                 state.loading = false;
-                state.message = null;
+                state.message = false;
                 state.photos = action.payload;
             })
             .addCase(deletePhoto.pending, (state) => {
@@ -145,7 +157,7 @@ export const photoSlice = createSlice({
                 state.loading = true;
             })
             .addCase(updatePhoto.fulfilled, (state, action) => {
-                
+
                 state.errors = false;
                 state.loading = false;
                 state.message = "Foto atualizada";
@@ -158,15 +170,38 @@ export const photoSlice = createSlice({
                     return photo;
                 })
             })
-            .addCase(getPhotoId.pending, (state)=>{
+            .addCase(getPhotoId.pending, (state) => {
                 state.loading = true;
                 state.errors = false;
             })
-            .addCase(getPhotoId.fulfilled, (state, actions) =>{
+            .addCase(getPhotoId.fulfilled, (state, actions) => {
                 state.loading = false.value;
                 state.errors = false;
-                state.success = true;
                 state.photo = actions.payload
+            })
+            .addCase(photoLike.pending, (state) => {
+                state.loading = true;
+                state.errors = false;
+            })
+            .addCase(photoLike.rejected, (state, action) => {
+                state.loading = false;
+                state.errors = action.payload;
+                state.success = false;
+            })
+            .addCase(photoLike.fulfilled, (state, actions) => {
+                state.errors = false;
+                state.loading = false;
+
+                if (state.photo.likes) {
+                    state.photo.likes.push(actions.payload.idUser);
+                }
+                state.photos.map((p) => {
+                    if (photo._id === actions.payload.idPhoto) {
+                        return p.likes.push(actions.payload.idUser);
+                    }
+                    return p;
+                })
+                state.message = actions.payload.message;
             })
     }
 });

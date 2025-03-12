@@ -1,15 +1,18 @@
 import './Photo.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { getPhotoId } from '../../slices/photoSlice';
+import { getPhotoId ,photoLike} from '../../slices/photoSlice';
 
 import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
+import PhotoItemComponent from '../../components/PhotoItemComponent';
+import LikeComponent from '../../components/LikeComponent';
 
 
 function Photo() {
 
     const dispatch = useDispatch();
     const {loading, photo} = useSelector((state) => state.photo);
+    const {user} = useSelector((state) => state.auth );
 
     const {id} = useParams();
 
@@ -17,11 +20,20 @@ function Photo() {
         dispatch(getPhotoId(id));
     },[dispatch, id])
 
-    console.log(photo);
     
+    const handleLike = () =>{
+
+      dispatch(photoLike(id));
+
+    }
+
+    if (loading) {
+      return <p>Carregando...</p>
+    }
   return (
-    <div>
-      div photo
+    <div id='photo'>
+      <PhotoItemComponent photo={photo}/>
+      <LikeComponent photo={photo} user={user}  handleLike={handleLike} />
     </div>
   )
 }

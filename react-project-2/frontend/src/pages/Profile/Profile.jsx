@@ -17,7 +17,7 @@ const Profile = () => {
   //selector
   const { user, loading } = useSelector((state) => state.user);
   const { user: auth } = useSelector((state) => state.auth);
-  const { loading: loadingPhoto, errorsPhoto, message, success, photos } = useSelector((state) => state.photo)
+  const { loading: loadingPhoto, errors :errorsPhoto, message, success, photos } = useSelector((state) => state.photo)
   // 
   const dispatch = useDispatch();
 
@@ -25,7 +25,6 @@ const Profile = () => {
 
   const newPhotoForm = useRef();
   const editPhotoForm = useRef();
-
 
   useEffect(() => {
     dispatch(details(id));
@@ -184,7 +183,7 @@ const Profile = () => {
             </form>
 
           </div>
-          {errorsPhoto && <MessageComponent msg={errors} type={'error'}></MessageComponent>}
+          {errorsPhoto && <MessageComponent msg={errorsPhoto} type={'error'}></MessageComponent>}
           {success && <MessageComponent msg={message} type={'success'}></MessageComponent>}
         </>}
       <div className="user-photos">

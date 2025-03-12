@@ -76,6 +76,8 @@ const EditProfile = () => {
     setFile(image);
   }
 
+  
+
   return (
     <div id='edit-profile'>
       <h2>Edite seus dados</h2>
