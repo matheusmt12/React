@@ -177,19 +177,27 @@ const commentPhoto = async (req, res) => {
     const { comment } = req.body;
     const photo = await Photo.findById(id);
 
+    const user = await User.findById(userReq._id);
+
     if (!photo) {
 
         res.status(404).json({ errors: 'A foto não foi encontrada' });
         return;
     }
 
-    if (comment) {
-        photo.comments.push({ userId: userReq._id, comment: comment});
+
+    const userComment = {
+        comment, 
+        idUser : user._id,
+        userName : user.name,
+        userImage : user.profileImg
     }
+
+    photo.comments.push(userComment);
 
     await photo.save();
 
-    res.status(200).json({idPhoto : photo._id , idUser : userReq._id , message : 'Comentário feito'})
+    res.status(200).json({comment : userComment, message : 'Comentário feito'})
 }
 
 
