@@ -8,14 +8,15 @@ import RegisterView from './pages/Auth/RegisterView';
 import LoginView from './pages/Auth/LoginView';
 import EditProfile from './pages/EditProfile/EditProfile';
 import Profile from './pages/Profile/Profile';
-
+import Photo from './pages/Photo/Photo';
+import Search from './pages/Search/Search';
 //hooks
 import { useAuth } from './hooks/useAuth';
 
 //component
 import NavbarComponent from './components/NavbarComponent';
 import FooterComponent from './components/FooterComponent';
-import Photo from './pages/Photo/Photo';
+
 
 function App() {
 
@@ -38,6 +39,7 @@ function App() {
           <Route path='/register' element={!auth ? <RegisterView /> : <Navigate to={'/'} />} />
           <Route path='/login' element={!auth ? <LoginView /> : <Navigate to={'/'} />} />
           <Route path='/photos/:id' element={auth ? <Photo /> : <Navigate to={'/login'}></Navigate>} />
+          <Route path='/search' element={auth ? <Search /> : <Navigate to={'/login'}></Navigate>} />
         </Routes>
       </div>
       <FooterComponent />

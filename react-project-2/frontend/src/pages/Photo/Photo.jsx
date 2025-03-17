@@ -90,7 +90,7 @@ function Photo() {
                         <p>{item.userName}</p>
                       </Link>
                     </div>
-                      <p>item.comment</p>
+                      <p>{item.comment}</p>
                   </div>
                 ))
               )

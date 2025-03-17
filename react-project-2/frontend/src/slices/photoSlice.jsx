@@ -96,11 +96,31 @@ export const photoComment = createAsyncThunk('photo/comment', async(data, thunck
         return thunckAPI.rejectWithValue(data.errors[0]);
     }
 
-    console.log(photo);
     
     return photo;
 
 });
+
+export const getAllPhotos = createAsyncThunk('photo/all', async (_,thunckAPI) =>{
+
+    
+    const token = thunckAPI.getState().auth.user.token;
+
+    const data = await photoService.getAllPhotos(token)
+    
+    return data;
+
+});
+
+export const searchPhotos =createAsyncThunk('photo/search', async(query, thunckAPI)=>{
+
+    const token = thunckAPI.getState().auth.user.token;
+
+    const data = await photoService.searchPhotos(query, token);
+    
+    return data;
+
+})
 
 export const photoSlice = createSlice({
     name: 'photo',
@@ -233,6 +253,26 @@ export const photoSlice = createSlice({
                 state.loading = false;
                 state.message = actions.message;
                 state.photo.comments.push(actions.payload.comment);
+            })
+            .addCase(getAllPhotos.pending, (state) =>{
+                state.loading = true;
+                state.errors = false;
+            })
+            .addCase(getAllPhotos.fulfilled,(state,actions) => {
+                state.errors = false;
+                state.loading = false;
+                state.photos = actions.payload;
+                state.message = false;
+            })
+            .addCase(searchPhotos.pending, (state) =>{
+                state.loading = true;
+                state.errors = false;
+            })
+            .addCase(searchPhotos.fulfilled,(state,actions) => {
+                state.errors = false;
+                state.loading = false;
+                state.photos = actions.payload;
+                state.message = false;
             })
     }
 });

@@ -66,7 +66,7 @@ const getAllPhotos = async (req, res) => {
 
     const photos = await Photo.find({}).sort([["createdAt", -1]]).exec();
 
-    res.status(200).json({ photos: photos })
+    res.status(200).json(photos);
 }
 
 // get all fotos do usuário por id do usuário

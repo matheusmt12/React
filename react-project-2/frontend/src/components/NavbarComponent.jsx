@@ -14,6 +14,7 @@ import { useSelector } from 'react-redux';
 import { logout, reset } from '../slices/authSlice.jsx';
 
 import { useDispatch } from 'react-redux';
+import { useState } from 'react';
 
 const NavbarComponent = () => {
 
@@ -22,7 +23,7 @@ const NavbarComponent = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const [query, setQuery] = useState('');
 
   const handleLogout = () => {
 
@@ -34,14 +35,23 @@ const NavbarComponent = () => {
   }
 
 
+  const handleSearch = (e) =>{
+    e.preventDefault();
+
+    if (query) {
+      return navigate('/search?q='+query);
+    }
+  }
+
+
 
 
   return (
     <nav id='nav'>
       <Link to={'/'}>Home</Link>
-      <form id='search-form'>
+      <form id='search-form' onSubmit={handleSearch}>
         <BsSearch />
-        <input type="text" />
+        <input type="text" value={query || ''} onChange={(e) => setQuery(e.target.value)} />
       </form>
       <ul id='nav-links'>
         {
